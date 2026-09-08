@@ -1,6 +1,7 @@
 # Programming Everyday Until I Get Good at It
 
-A one-year programming journey.
+A one-year programming journey. 
+I decided to start this project after I failed a job interview assesment and realized I needed to improve my skills.
 
 ## Objectives
 
