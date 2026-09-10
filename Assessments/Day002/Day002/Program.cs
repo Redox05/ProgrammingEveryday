@@ -4,17 +4,23 @@
 
 //string text = "Swiss";
 
-//Console.WriteLine($"First Non-repeating character: {FindFirstNonRepeatingCharacter(text.ToLower())}");
+//Console.WriteLine($"First Non-repeating character: {FindFirstNonRepeatingCharacter(text)}");
 
-//char? FindFirstNonRepeatingCharacter(string txt){
-//    char? firstNonRepeatingChar = ' ';
+//char? FindFirstNonRepeatingCharacter(string txt)
+//{
+//    string txtToLower = txt.ToLower();
+//    char? firstNonRepeatingChar = null;
 
 //    //Count the appearance of every character
 //    Dictionary<char, int> charCounter = new Dictionary<char, int>();
 
-//    foreach (char c in txt)
+//    foreach (char c in txtToLower)
 //    {
-//        if (charCounter.ContainsKey(c))
+//        if (char.IsWhiteSpace(c))
+//        {
+//            continue;
+//        }
+//        else if (charCounter.ContainsKey(c))
 //        {
 //            charCounter[c]++;
 //        }
@@ -25,21 +31,17 @@
 //    }
 
 //    //Find the first char which value is = 1
-//    foreach (var kvp in charCounter)
+//    foreach (char c in txtToLower)
 //    {
-//        if (kvp.Value == 1)
+//        if(char.IsWhiteSpace(c)){
+//            continue;
+//        }
+//        if (charCounter[c] == 1)
 //        {
-//            firstNonRepeatingChar = kvp.Key;
+//            firstNonRepeatingChar = c;
 //            break;
 //        }
-//        else
-//        {
-//            firstNonRepeatingChar = null;
-//        }
 //    }
-
-//    //I don't know how to ignore spaces
-
 
 //    return firstNonRepeatingChar;
 //}
@@ -51,17 +53,32 @@
 
 int[] numbers = { 4, 2, 4, 1, 2, 8 };
 
-Dictionary<int, int> noCounter = new Dictionary<int, int>();
+int[] uniqueNumbers = RemoveDuplicates(numbers);
 
-//Remove duplicates
-foreach(int i in numbers){
-    if(!noCounter.ContainsKey(i)){
-        noCounter[i] = 1;
+foreach(int i in uniqueNumbers){
+    Console.Write($"{i} ");
+}
+
+int[] RemoveDuplicates(int[] numbers){
+
+    //Initialize HashSet
+    HashSet<int> uniqueNumbers = new HashSet<int>();
+    List<int> uniqueList = new List<int>();
+
+    //Remove duplicates
+    foreach (int i in numbers)
+    {
+        bool wasAdded = uniqueNumbers.Add(i);
+        if(wasAdded){
+            uniqueList.Add(i);
+        }
+        
     }
+
+    //Convert the list to a int[]
+    int[] result = uniqueList.ToArray();
+    return result;
 }
 
-//Print the array without duplicates
-foreach(var kvp in noCounter){
-    Console.Write($"{kvp.Key}");
-}
+
 

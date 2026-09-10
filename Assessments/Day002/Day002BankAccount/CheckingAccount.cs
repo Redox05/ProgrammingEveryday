@@ -25,7 +25,7 @@ namespace Day002BankAccount
         }
         public override decimal CalculateMonthlyBenefit()
         {
-            return MonthlyFee;
+            return -MonthlyFee;
         }
     }
 }
