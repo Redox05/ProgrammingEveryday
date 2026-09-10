@@ -1,15 +1,12 @@
 ﻿//*********************************************************************************************************
 //Problem 1 — Character frequency
 
-//string text = "Programming!$%&";
-
-//CountCharacters(text);
+//string text = "Pprogramming!$%&";
 
 //foreach (var kvp in CountCharacters(text))
 //{
 //    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
 //}
-
 
 //Dictionary<char, int> CountCharacters(string text)
 //{
@@ -32,7 +29,7 @@
 //*********************************************************************************************************
 //Problem 2 — Second largest distinct number
 
-//int[] numbers = { 1, 2 };
+//int[] numbers = { 1, 2 , 3 , 4, 4};
 
 //int largest = int.MinValue;
 //int secondLargest = int.MinValue;

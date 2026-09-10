@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Day002/Day002.csproj" />
+  <Project Path="Day002BankAccount/Day002BankAccount.csproj" Id="d7f3e044-0b07-40cb-9221-c27c67896e42" />
+</Solution>
