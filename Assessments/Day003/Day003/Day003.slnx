@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Day003/Day003.csproj" />
+  <Project Path="Day003OOP/Day003OOP.csproj" />
+</Solution>
