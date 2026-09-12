@@ -20,7 +20,7 @@ namespace Day003
             //FIXED - It doesnt behave well when all numbers are different and when the first number is neggative
             //It doesn't print a message when the array is null
 
-            //int[] numbers = { 5, 4, 3 };
+            //int[] numbers = { -1, -1, 4, 4 };
 
             //int? mostFrequentNumber = FindMostFrequent(numbers);
 
@@ -34,7 +34,7 @@ namespace Day003
 
             //    Dictionary<int, int> numberOccurrence = new Dictionary<int, int>();
 
-            //    if (numbers != null)
+            //    if (numbers.Length != 0)
             //    {
             //        //Count ocurrence
             //        for (int i = 0; i < numbers.Length; i++)
@@ -50,12 +50,10 @@ namespace Day003
             //        }
 
             //        //Return most frequent
-            //        foreach (var kvp in numberOccurrence)
-            //        {
-            //            if (kvp.Value > frequency)
-            //            {
-            //                frequency = kvp.Value;
-            //                mostFrequentNumber = kvp.Key;
+            //        for(int i=0;i<numbers.Length;i++){
+            //            if(numberOccurrence[numbers[i]]>frequency){
+            //                frequency = numberOccurrence[numbers[i]];
+            //                mostFrequentNumber = numbers[i];
             //            }
             //        }
             //        return mostFrequentNumber;
@@ -81,34 +79,45 @@ namespace Day003
             //Nothing is printed if all are different
 
 
-            //int[] first = { 8, 3, 7, 3, 2, 8 };
-            //int[] second = { 7, 8, 9 };
+            int[] first = { 8, 3, 7, 3, 2, 8 };
+            int[] second = { 7, 8, 9 };
 
-            //int[] result = FindCommonValues(first, second);
-            //foreach (int n in result)
-            //{
-            //    Console.Write($"{n} ");
-            //}
+            int[] result = FindCommonValues(first, second);
+            foreach (int n in result)
+            {
+                Console.Write($"{n} ");
+            }
 
-            //int[] FindCommonValues(int[] first, int[] second)
-            //{
-            //    int[] result = { };
-            //    HashSet<int> commonNonRepeted = new HashSet<int>();
+            int[] FindCommonValues(int[] first, int[] second)
+            {
 
-            //    //Find and store the common values
-            //    for (int i = 0; i < first.Length; i++)
-            //    {
-            //        for (int j = 0; j < second.Length; j++)
-            //        {
-            //            if (first[i] == second[j])
-            //            {
-            //                commonNonRepeted.Add(first[i]);
-            //            }
-            //        }
-            //    }
-            //    result = commonNonRepeted.ToArray();
-            //    return result;
-            //}
+                HashSet<int> valuesInSecond = new HashSet<int>();
+                HashSet<int> alreadyAdded = new HashSet<int>();
+                List<int> result = new List<int>();
+
+                //Store values in second
+                for (int i = 0; i < second.Length; i++)
+                {
+                    valuesInSecond.Add(second[i]);
+                }
+
+                //Is first[i] contained in second ?
+                for (int i=0;i<first.Length;i++)
+                {
+                    if(valuesInSecond.Contains(first[i]))
+                    {
+                        if(alreadyAdded.Add(first[i])){
+                            result.Add(first[i]);
+                        }
+                    }
+                }
+
+                int[] resultArray = new int[result.Count];
+                for (int i=0;i<resultArray.Length;i++){
+                    resultArray[i] = result[i];
+                }
+                return resultArray;
+            }
 
 
 
