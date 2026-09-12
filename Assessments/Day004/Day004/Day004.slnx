@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Day004/Day004.csproj" />
+  <Project Path="DebuggingChallenge/DebuggingChallenge.csproj" />
+  <Project Path="Problem2/Problem2.csproj" />
+</Solution>
