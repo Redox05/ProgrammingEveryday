@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Day004/Day004.csproj" />
   <Project Path="DebuggingChallenge/DebuggingChallenge.csproj" />
+  <Project Path="Exceptions/Exceptions.csproj" Id="ebeead59-c303-4b3c-8f52-6a27d950d0f7" />
   <Project Path="Problem2/Problem2.csproj" />
 </Solution>
