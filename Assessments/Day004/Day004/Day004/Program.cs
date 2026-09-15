@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            int[] numbers = { };
+            int[] numbers = {1,2,3,1,2,3 };
 
             int? firstDuplicate = FindFirstDuplicate(numbers);
 

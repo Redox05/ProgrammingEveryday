@@ -1,7 +1,3 @@
-﻿
-
-
-
 # Day 1 Assessment Review
 
 Date: September 7, 2026
