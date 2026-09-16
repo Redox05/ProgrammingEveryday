@@ -11,15 +11,15 @@ namespace InventoryManagement
         public int Quantity { get; private set; }
 
         void SetId(int id){
-            if(int.IsNegative(id)){
-                throw new ArgumentException($"Id cannot be less than zero");
+            if(int.IsNegative(id) || id==0){
+                throw new ArgumentException($"Id cannot be negative or zero");
             }
             else{
                 Id = id;
             }
         }
         void SetName(string name){
-            if(string.IsNullOrEmpty(name)){
+            if(string.IsNullOrWhiteSpace(name)){
                 throw new ArgumentNullException($"Name cannot be empty");
             }
             else{
@@ -49,9 +49,9 @@ namespace InventoryManagement
             }
         }
         public void DecreaseQuantity(int amount){
-            if (int.IsNegative(amount))
+            if (int.IsNegative(amount) || amount==0)
             {
-                throw new ArgumentOutOfRangeException($"Amount cannot be negative. Please " +
+                throw new ArgumentOutOfRangeException($"Amount cannot be negative or zero. Please " +
                 $"enter a positive number to substract from the stock");
             }
             else if(amount>Quantity){

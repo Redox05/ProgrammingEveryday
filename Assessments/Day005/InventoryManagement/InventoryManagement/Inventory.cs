@@ -27,16 +27,15 @@ namespace InventoryManagement
             foreach (var product in products)
             {
                 if(product.Id==id){
-                   result = product;
+                   return result = product;
                 }
-
             }
             if(result!=null){
                 return result;
             }
             else
             {
-                throw new ArgumentNullException($"The product doesn't exist");
+                return null;
             }
 
         }
