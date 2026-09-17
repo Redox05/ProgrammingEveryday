@@ -23,7 +23,15 @@ namespace Day006ProductApi
 
             app.MapGet("/products/{id}", (int id) =>
             {
-                Product? existingProduct = products.FirstOrDefault(product => product.Id == id);
+                Product? existingProduct = null;
+
+                for (int i = 0; i < products.Count; i++)
+                {
+                    if (products[i].Id==id)
+                    {
+                        existingProduct = products[i];
+                    }
+                }
                 if(existingProduct == null){
                     return Results.NotFound("The product doesn't exist");
                 }
@@ -44,15 +52,13 @@ namespace Day006ProductApi
                 }
                 else
                 {
-                    int lastID = 0;
-                    foreach (var product in products)
+                    for (int i = 0; i < products.Count; i++)
                     {
-                        if (product.Id>lastID)
+                        if (newProduct.Id==products[i].Id)
                         {
-                            lastID = product.Id;
+                            return Results.BadRequest("That ID is not available. Select a different ID");
                         }
                     }
-                    newProduct.Id = lastID + 1;
                     products.Add(newProduct);
                     return Results.Created();
                 }

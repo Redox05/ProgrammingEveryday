@@ -2,7 +2,8 @@
 Content-Type: application/json
 
 {
-  "name": "Mousepad",
-  "quantity": 1
+    "id": 4,
+    "name": "Mousepad",
+    "quantity": 1
 }
 
