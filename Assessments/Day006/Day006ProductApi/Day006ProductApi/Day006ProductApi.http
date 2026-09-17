@@ -1,0 +1,8 @@
+﻿POST https://localhost:7291/products
+Content-Type: application/json
+
+{
+  "name": "Mousepad",
+  "quantity": 1
+}
+

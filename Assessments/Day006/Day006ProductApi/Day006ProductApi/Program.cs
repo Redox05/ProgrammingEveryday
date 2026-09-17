@@ -10,9 +10,6 @@ namespace Day006ProductApi
             var builder = WebApplication.CreateBuilder(args);
             var app = builder.Build();
 
-            app.MapGet("/", () => "Hello World!");
-
-
             List<Product> products = new List<Product>
             {
                 new Product {Id=1, Name="Keyboard",Quantity=10},
@@ -32,6 +29,32 @@ namespace Day006ProductApi
                 }
                 else{
                     return Results.Ok(existingProduct);
+                }
+            });
+            app.MapPost("/products", (Product newProduct) =>
+            {
+                // your implementation
+                if (string.IsNullOrWhiteSpace(newProduct.Name))
+                {
+                    return Results.BadRequest("Name cannot be null, empty, or whitespace");
+                }
+                else if (newProduct.Quantity<0)
+                {
+                    return Results.BadRequest("Quantity cannot be neggative");
+                }
+                else
+                {
+                    int lastID = 0;
+                    foreach (var product in products)
+                    {
+                        if (product.Id>lastID)
+                        {
+                            lastID = product.Id;
+                        }
+                    }
+                    newProduct.Id = lastID + 1;
+                    products.Add(newProduct);
+                    return Results.Created();
                 }
             });
 
