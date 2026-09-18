@@ -41,7 +41,6 @@ namespace Day006ProductApi
             });
             app.MapPost("/products", (Product newProduct) =>
             {
-                // your implementation
                 if (string.IsNullOrWhiteSpace(newProduct.Name))
                 {
                     return Results.BadRequest("Name cannot be null, empty, or whitespace");
@@ -64,6 +63,54 @@ namespace Day006ProductApi
                 }
             });
 
+
+            app.MapPut("/products/{id}", (int id, Product updatedProduct) =>
+            {
+                Product? existingProduct = null;
+                for (int i = 0; i < products.Count; i++)
+                {
+                    if (products[i].Id==id)
+                    {
+                        existingProduct = products[i];
+                        break;
+                    }
+                }
+                if (existingProduct==null)
+                {
+                    return Results.NotFound("The product doesn't exist");
+                }
+                if (string.IsNullOrWhiteSpace(updatedProduct.Name))
+                {
+                    return Results.BadRequest("Name cannot be bull, empty, or whitespace");
+                }
+                if (int.IsNegative(updatedProduct.Quantity))
+                {
+                    return Results.BadRequest("Quantity cannot be negative");
+                }
+                existingProduct.Name = updatedProduct.Name;
+                existingProduct.Quantity = updatedProduct.Quantity;
+                return Results.Ok("The product was modified");
+
+            });
+
+            app.MapDelete("/products/{id}", (int id) =>
+            {
+                Product? existingProduct = null;
+                for (int i = 0; i < products.Count; i++)
+                {
+                    if (products[i].Id==id)
+                    {
+                        existingProduct = products[i];
+                        break;
+                    }
+                }
+                if (existingProduct==null)
+                {
+                    return Results.NotFound("The product doesn't exist.");
+                }
+                products.Remove(existingProduct);
+                return Results.NoContent();
+            });
             app.Run();
         }
     }

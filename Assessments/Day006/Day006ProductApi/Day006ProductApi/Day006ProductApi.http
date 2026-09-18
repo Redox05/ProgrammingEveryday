@@ -1,9 +1,38 @@
-﻿POST https://localhost:7291/products
+﻿GET https://localhost:7291/products
+
+###
+GET https://localhost:7291/products/3
+
+###
+POST https://localhost:7291/products
 Content-Type: application/json
 
 {
-    "id": 4,
+    "id": 10,
     "name": "Mousepad",
     "quantity": 1
 }
 
+###
+PUT https://localhost:7291/products/3
+Content-Type: application/json
+
+{
+    "name": "Mousepad",
+    "quantity": 1
+}
+
+### PUT - Failure case
+PUT https://localhost:7291/products/99
+Content-Type: application/json
+
+{
+    "name": "Mousepad",
+    "quantity": 1
+}
+
+###
+DELETE https://localhost:7291/products/3
+
+### DELETE - Failure case
+DELETE https://localhost:7291/products/99
