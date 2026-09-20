@@ -10,6 +10,12 @@ namespace Day006ProductApi
             var builder = WebApplication.CreateBuilder(args);
             var app = builder.Build();
 
+            app.UseDefaultFiles();
+
+            app.UseStaticFiles();
+
+            app.MapControllers();
+
             List<Product> products = new List<Product>
             {
                 new Product {Id=1, Name="Keyboard",Quantity=10},
