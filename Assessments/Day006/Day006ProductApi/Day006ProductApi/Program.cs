@@ -14,8 +14,6 @@ namespace Day006ProductApi
 
             app.UseStaticFiles();
 
-            app.MapControllers();
-
             List<Product> products = new List<Product>
             {
                 new Product {Id=1, Name="Keyboard",Quantity=10},
@@ -45,6 +43,7 @@ namespace Day006ProductApi
                     return Results.Ok(existingProduct);
                 }
             });
+
             app.MapPost("/products", (Product newProduct) =>
             {
                 if (string.IsNullOrWhiteSpace(newProduct.Name))
@@ -68,7 +67,6 @@ namespace Day006ProductApi
                     return Results.Created();
                 }
             });
-
 
             app.MapPut("/products/{id}", (int id, Product updatedProduct) =>
             {

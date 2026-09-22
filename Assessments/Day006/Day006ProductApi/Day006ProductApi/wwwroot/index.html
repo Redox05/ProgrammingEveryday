@@ -8,9 +8,72 @@
 <body>
     <h1>Products</h1>
     <button id="loadProductsButton">Load Products</button>
-    <div id="prdoucts"></div>
+    <div id="products"></div>
 
-    <script>const response = document.getElementById('loadProductsButton');
-    </script>    
+
+    <h2>Add Product</h2>
+    <input id="productId" type="number" placeholder="ID"/>
+    <input id="productName" type="text" placeholder="Name"/>
+    <input id="productQuantity" type="number" placeholder="Quantity"/>
+
+    <button id="addProductButton">Add Product</button>
+    <div id="message"></div>
+
+    <script>
+
+        const productsDiv = document.getElementById("products");
+
+        const loadButton = document.getElementById("loadProductsButton");
+        loadButton.addEventListener("click", async () => {
+            const response = await fetch("/products");
+            console.log(response);
+
+            const products = await response.json();
+            console.log(products);
+
+            console.log(products[0]);
+            console.log(products[0].name);
+
+
+            productsDiv.innerHTML = "";
+            products.forEach(product => {
+                productsDiv.innerHTML += `<p>${product.name}</p>`;
+            });
+
+        });
+
+        const idInput = document.getElementById("productId");
+        const nameInput = document.getElementById("productName");
+        const quantityInput = document.getElementById("productQuantity");
+
+        const messageDiv = document.getElementById("message");
+        const addButton = document.getElementById("addProductButton");
+        addButton.addEventListener("click", async () => {
+            messageDiv.innerHTML = `<p>ID: ${idInput.value} Name: ${nameInput.value} Quantity: ${quantityInput.value}</p>`;
+
+            const id = Number(idInput.value);
+            const name = nameInput.value;
+            const quantity = Number(quantityInput.value);
+
+            const newProduct = {
+                id,
+                name,
+                quantity
+            };
+
+            const jsonProduct = JSON.stringify(newProduct);
+
+            const response = await fetch("/products", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: jsonProduct
+            });
+            
+            console.log(response);
+        });
+
+    </script> 
 </body>
 </html>
