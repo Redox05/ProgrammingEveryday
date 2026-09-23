@@ -61,17 +61,34 @@
                 quantity
             };
 
-            const jsonProduct = JSON.stringify(newProduct);
+            try {
+                const jsonProduct = JSON.stringify(newProduct);
 
-            const response = await fetch("/products", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: jsonProduct
-            });
-            
-            console.log(response);
+                const response = await fetch("/products", {
+
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: jsonProduct
+                });
+                console.log(response);
+
+                if (response.ok) {
+                    messageDiv.innerHTML = `Product created successfully`;
+                }
+                else {
+                    const errorMessage = await response.json();
+
+                    console.log(errorMessage);
+                    console.log(typeof errorMessage);
+
+                    messageDiv.innerHTML = errorMessage;
+                }
+            }
+            catch {
+                messageDiv.innerHTML = `Could not connect to the server`;
+            }
         });
 
     </script> 

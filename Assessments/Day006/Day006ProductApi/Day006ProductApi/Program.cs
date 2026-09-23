@@ -50,9 +50,9 @@ namespace Day006ProductApi
                 {
                     return Results.BadRequest("Name cannot be null, empty, or whitespace");
                 }
-                else if (newProduct.Quantity<0)
+                else if (newProduct.Quantity<=0)
                 {
-                    return Results.BadRequest("Quantity cannot be neggative");
+                    return Results.BadRequest("Quantity must be greater than zero");
                 }
                 else
                 {
