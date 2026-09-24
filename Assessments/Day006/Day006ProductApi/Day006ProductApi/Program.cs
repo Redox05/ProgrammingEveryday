@@ -85,7 +85,7 @@ namespace Day006ProductApi
                 }
                 if (string.IsNullOrWhiteSpace(updatedProduct.Name))
                 {
-                    return Results.BadRequest("Name cannot be bull, empty, or whitespace");
+                    return Results.BadRequest("Name cannot be null, empty, or whitespace");
                 }
                 if (int.IsNegative(updatedProduct.Quantity))
                 {

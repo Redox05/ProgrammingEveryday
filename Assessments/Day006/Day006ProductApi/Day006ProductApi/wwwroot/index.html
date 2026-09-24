@@ -15,9 +15,15 @@
     <input id="productId" type="number" placeholder="ID"/>
     <input id="productName" type="text" placeholder="Name"/>
     <input id="productQuantity" type="number" placeholder="Quantity"/>
-
     <button id="addProductButton">Add Product</button>
-    <div id="message"></div>
+    <div id="addMessage"></div>
+
+    <h2>Update Product</h2>
+    <input id="updateId" type="number" placeholder="ID"/>
+    <input id="updateName" type="text" placeholder="New Name"/>
+    <input id="updateQuantity" type="number" placeholder="New Quantity"/>
+    <button id="updateProduct">Update Product</button>
+    <div id="updateMessage"></div>
 
     <script>
 
@@ -46,7 +52,7 @@
         const nameInput = document.getElementById("productName");
         const quantityInput = document.getElementById("productQuantity");
 
-        const messageDiv = document.getElementById("message");
+        const messageDiv = document.getElementById("addMessage");
         const addButton = document.getElementById("addProductButton");
         addButton.addEventListener("click", async () => {
             messageDiv.innerHTML = `<p>ID: ${idInput.value} Name: ${nameInput.value} Quantity: ${quantityInput.value}</p>`;
@@ -88,6 +94,58 @@
             }
             catch {
                 messageDiv.innerHTML = `Could not connect to the server`;
+            }
+        });
+
+        const putIdInput = document.getElementById("updateId");
+        const putNameInput = document.getElementById("updateName");
+        const putQuantityInput = document.getElementById("updateQuantity");
+        const updateButton = document.getElementById("updateProduct");
+        const putMessage = document.getElementById("updateMessage");
+        updateButton.addEventListener("click", async () => {
+            putMessage.innerHTML = `Update Button Clicked`;
+
+            const id = Number(putIdInput.value);
+            const name = putNameInput.value;
+            const quantity = Number(putQuantityInput.value);
+
+            const updatedProduct = {
+                id,
+                name,
+                quantity
+            }
+
+            console.log(updatedProduct);
+            console.log(typeof updatedProduct.id);
+            console.log(typeof updatedProduct.name);
+            console.log(typeof updatedProduct.quantity);
+
+            const url = `/products/${id}`;
+            console.log(url);
+
+            try {
+                const jsonProduct = JSON.stringify(updatedProduct);
+
+                const response = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: jsonProduct
+                });
+                console.log(response);
+                if (response.ok) {
+                    putMessage.innerHTML = `Product updated successfully`;
+                }
+                else {
+                    const errorMessage = await response.json();
+                    console.log(errorMessage);
+                    putMessage.innerHTML = errorMessage;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                putMessage.innerHTML = `Could not connect to the server`;
             }
         });
 
