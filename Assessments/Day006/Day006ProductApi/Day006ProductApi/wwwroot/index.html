@@ -25,6 +25,11 @@
     <button id="updateProduct">Update Product</button>
     <div id="updateMessage"></div>
 
+    <h2>Delete Product</h2>
+    <input id="deleteId" type="number" placeholder="ID">
+    <button id="deleteProduct">Delete Product</button>
+    <div id="deleteMessage"></div>
+
     <script>
 
         const productsDiv = document.getElementById("products");
@@ -148,6 +153,37 @@
                 putMessage.innerHTML = `Could not connect to the server`;
             }
         });
+
+
+        const deleteId = document.getElementById("deleteId");
+        const deleteProduct = document.getElementById("deleteProduct");
+        const deleteMessage = document.getElementById("deleteMessage");
+
+        deleteProduct.addEventListener("click", async () => {
+            
+            try {
+                const id = Number(deleteId.value);
+                const url = `/products/${id}`;
+                console.log(url);
+                const response = await fetch(url, {
+                    method: "DELETE"
+                });
+                console.log(response);
+                if (response.ok) {
+                    deleteMessage.innerHTML = `Product Deleted Successfully`;
+                }
+                else {
+                    const errorMessage = await response.json();
+                    console.log(errorMessage);
+                    deleteMessage.innerHTML = errorMessage;
+                }
+            }
+            catch (error) {
+                console.log(error);
+                deleteMessage.innerHTML = `Could not connect to the server`;
+            }
+        });
+        
 
     </script> 
 </body>
