@@ -66,12 +66,9 @@
                 return;
             }
             const id = Number(idInput.value);
-            if (id <= 0) { 
-                messageDiv.innerHTML = `ID must be greater than zero`;
-                return;
-            }
-            if (!Number.isInteger(id)) {
-                messageDiv.innerHTML = `ID must be an integer`;
+            const idError = ValidatePositiveInteger(id);
+            if (idError) { 
+                messageDiv.innerHTML = `ID ${idError}`;
                 return;
             }
 
@@ -86,12 +83,9 @@
                 return;
             }
             const quantity = Number(quantityInput.value);
-            if (quantity <= 0) { 
-                messageDiv.innerHTML = "Quantity must be greater than zero";
-                return;
-            }
-            if (!Number.isInteger(quantity)) { 
-                messageDiv.innerHTML = "Quantity must be an integer";
+            const quantityError = ValidatePositiveInteger(quantity);
+            if (quantityError) { 
+                messageDiv.innerHTML = `Quantity ${quantityError}`;
                 return;
             }
 
@@ -195,13 +189,9 @@
                 return;
             }
             const id = Number(deleteId.value);
-            
-            if (id <= 0) {
-                deleteMessage.innerHTML = `ID must be greater than zero`;
-                return;
-            }
-            if (!Number.isInteger(id)) {
-                deleteMessage.innerHTML = `ID must be a valid number`;
+
+            if (!IsPositiveInteger(id)) { 
+                deleteMessage.innerHTML = `ID must be a positive integer`;
                 return;
             }
             const url = `/products/${id}`;
@@ -228,7 +218,23 @@
                 deleteMessage.innerHTML = `Could not connect to the server`;
             }
         });
-        
+
+        //Validation functions
+        function IsPositiveInteger(number){
+            return number > 0 && Number.isInteger(number);
+        }
+        function ValidatePositiveInteger(number){
+            if (Number.isNaN(number)) { 
+                return `Enter a valid number`;
+            }
+            if (number <= 0) { 
+                return `must be greater than zero`;
+            }
+            if (!Number.isInteger(number)) { 
+                return `must be an integer`;
+            }
+            return "";
+        }
 
     </script> 
 </body>
