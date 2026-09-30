@@ -30,6 +30,11 @@
     <button id="deleteProduct">Delete Product</button>
     <div id="deleteMessage"></div>
 
+    <h2>Find Product</h2>
+    <input id="findId" type="number" placeholder="ID"/>
+    <button id="findProduct">Find Product</button>
+    <div id="findMessage"></div>
+
     <script>
 
         const productsDiv = document.getElementById("products");
@@ -234,7 +239,43 @@
                 return `must be an integer`;
             }
             return "";
-        }
+}
+
+        //Find Product
+        const findIdInput = document.getElementById("findId");
+        const findProductBtn = document.getElementById("findProduct");
+        const findMessage = document.getElementById("findMessage");
+        findProductBtn.addEventListener("click", async () =>{
+            if (findIdInput.value == "") { 
+                findMessage.innerHTML = `ID is required`;
+                return;
+            }
+            const id = Number(findIdInput.value);
+            const findError = ValidatePositiveInteger(id);
+            if (findError) {
+                findMessage.innerHTML = `ID ${findError}`;
+                return;
+            }
+            findMessage.innerHTML = ``;
+            console.log("Valid ID");
+
+            try {
+                const url = `/products/${id}`;
+                const response = await fetch(url);
+                console.log(response);
+                if (response.ok) { 
+                    const foundProduct = await response.json();
+                    console.log(foundProduct);
+                    findMessage.innerHTML = `${foundProduct.name} - Quantity: ${foundProduct.quantity}`;
+                }
+            }
+            catch {
+
+            }
+
+
+
+        });
 
     </script> 
 </body>
