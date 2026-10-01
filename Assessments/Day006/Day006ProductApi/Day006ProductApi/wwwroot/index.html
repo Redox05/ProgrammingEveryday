@@ -35,6 +35,10 @@
     <button id="findProduct">Find Product</button>
     <div id="findMessage"></div>
 
+    <h2>Low Stock Products</h2>
+    <button id="lowStockProducts">Show Low Stock</button>
+    <div id="lowStockMessage"></div>
+
     <script>
 
         const productsDiv = document.getElementById("products");
@@ -263,18 +267,20 @@
                 const url = `/products/${id}`;
                 const response = await fetch(url);
                 console.log(response);
-                if (response.ok) { 
+                if (response.ok) {
                     const foundProduct = await response.json();
                     console.log(foundProduct);
                     findMessage.innerHTML = `${foundProduct.name} - Quantity: ${foundProduct.quantity}`;
                 }
+                else { 
+                    const errorMessage = await response.text();
+                    console.log(errorMessage);
+                    findMessage.innerHTML = errorMessage;
+                }
             }
             catch {
-
+                findMessage.innerHTML = `Could not connect to the server`;
             }
-
-
-
         });
 
     </script> 
