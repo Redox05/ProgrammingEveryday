@@ -290,16 +290,29 @@
             try {
                 const response = await fetch("/products");
                 console.log(response);
-                const lowStockProdArray = await response.json();
-                console.log(lowStockProdArray);
-                const lowStock = lowStockProdArray.filter(product => product.quantity <= 5);
-                console.log(lowStock);
-                const lowStockText = lowStock.map(product => `${product.name} - Quantity ${product.quantity}`);
-                console.log(lowStockText);
-                lowStockMessage.innerHTML = lowStockText.join("<br>");
+
+                if (response.ok) {
+                    const lowStockProdArray = await response.json();
+                    console.log(lowStockProdArray);
+                    const lowStock = lowStockProdArray.filter(product => product.quantity <= 5);
+                    console.log(lowStock);
+                    if (lowStock.length === 0) {
+                        lowStockMessage.innerHTML = `No low-stock products`;
+                        return;
+                    }
+                    const lowStockText = lowStock.map(product => `${product.name} - Quantity ${product.quantity}`);
+                    console.log(lowStockText);
+                    lowStockMessage.innerHTML = lowStockText.join("<br>");
+                }
+                else { 
+                    const lowStockErrorMessage = await response.text();
+                    console.log(lowStockErrorMessage);
+                    lowStockMessage.innerHTML = lowStockErrorMessage;
+                }
+                
             }
             catch { 
-
+                lowStockMessage.innerHTML = `Could not connect to the server`;
             }
         });
     </script> 
