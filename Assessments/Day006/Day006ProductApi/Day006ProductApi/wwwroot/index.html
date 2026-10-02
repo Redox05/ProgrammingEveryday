@@ -283,6 +283,25 @@
             }
         });
 
+        //Show Low Stock Products
+        const lowStockBtn = document.getElementById("lowStockProducts");
+        const lowStockMessage = document.getElementById("lowStockMessage");
+        lowStockBtn.addEventListener("click", async () =>{
+            try {
+                const response = await fetch("/products");
+                console.log(response);
+                const lowStockProdArray = await response.json();
+                console.log(lowStockProdArray);
+                const lowStock = lowStockProdArray.filter(product => product.quantity <= 5);
+                console.log(lowStock);
+                const lowStockText = lowStock.map(product => `${product.name} - Quantity ${product.quantity}`);
+                console.log(lowStockText);
+                lowStockMessage.innerHTML = lowStockText.join("<br>");
+            }
+            catch { 
+
+            }
+        });
     </script> 
 </body>
 </html>
