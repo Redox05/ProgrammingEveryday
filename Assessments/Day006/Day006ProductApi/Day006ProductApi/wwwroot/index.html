@@ -286,6 +286,19 @@
         //Show Low Stock Products
         const lowStockBtn = document.getElementById("lowStockProducts");
         const lowStockMessage = document.getElementById("lowStockMessage");
+        //Functions
+        function GetLowStockProducts(products, lowStockLimit=5){
+            const filteredArray = products.filter(product => product.quantity <= lowStockLimit);
+            return filteredArray;
+}
+        function GetProductDisplayStrings(products){
+            const productsNameQuantity = products.map(product => `${product.name} - Quantity ${product.quantity}`);
+            return productsNameQuantity;
+}
+        function JoinProductDisplayStrings(productStrings){
+            const productText = productStrings.join("<br>");
+            return productText;
+        }
         lowStockBtn.addEventListener("click", async () =>{
             try {
                 const response = await fetch("/products");
@@ -294,15 +307,15 @@
                 if (response.ok) {
                     const lowStockProdArray = await response.json();
                     console.log(lowStockProdArray);
-                    const lowStock = lowStockProdArray.filter(product => product.quantity <= 5);
+                    const lowStock = GetLowStockProducts(lowStockProdArray);
                     console.log(lowStock);
                     if (lowStock.length === 0) {
                         lowStockMessage.innerHTML = `No low-stock products`;
                         return;
                     }
-                    const lowStockText = lowStock.map(product => `${product.name} - Quantity ${product.quantity}`);
+                    const lowStockText = GetProductDisplayStrings(lowStock);
                     console.log(lowStockText);
-                    lowStockMessage.innerHTML = lowStockText.join("<br>");
+                    lowStockMessage.innerHTML = JoinProductDisplayStrings(lowStockText);
                 }
                 else { 
                     const lowStockErrorMessage = await response.text();
