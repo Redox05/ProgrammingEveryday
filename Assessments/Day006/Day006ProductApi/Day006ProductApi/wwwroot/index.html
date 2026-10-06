@@ -245,6 +245,19 @@
             return "";
 }
 
+        //Functions
+        async function findProductMessage(response){
+            let message = "";
+            if (response.ok) {
+                const foundProduct = await response.json();
+                message = `${foundProduct.name} - Quantity: ${foundProduct.quantity}`;
+            }
+            else {
+                const errorMessage = await response.text();
+                message = errorMessage;
+            }
+            return message;
+        }
         //Find Product
         const findIdInput = document.getElementById("findId");
         const findProductBtn = document.getElementById("findProduct");
@@ -267,16 +280,8 @@
                 const url = `/products/${id}`;
                 const response = await fetch(url);
                 console.log(response);
-                if (response.ok) {
-                    const foundProduct = await response.json();
-                    console.log(foundProduct);
-                    findMessage.innerHTML = `${foundProduct.name} - Quantity: ${foundProduct.quantity}`;
-                }
-                else { 
-                    const errorMessage = await response.text();
-                    console.log(errorMessage);
-                    findMessage.innerHTML = errorMessage;
-                }
+                const message = await findProductMessage(response);
+                findMessage.innerHTML = message;
             }
             catch {
                 findMessage.innerHTML = `Could not connect to the server`;
@@ -290,7 +295,7 @@
         function GetLowStockProducts(products, lowStockLimit=5){
             const filteredArray = products.filter(product => product.quantity <= lowStockLimit);
             return filteredArray;
-}
+        }
         function GetProductDisplayStrings(products){
             const productsNameQuantity = products.map(product => `${product.name} - Quantity ${product.quantity}`);
             return productsNameQuantity;
