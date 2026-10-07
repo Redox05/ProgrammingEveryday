@@ -30,10 +30,15 @@
     <button id="deleteProduct">Delete Product</button>
     <div id="deleteMessage"></div>
 
-    <h2>Find Product</h2>
+    <h2>Find Product by Id</h2>
     <input id="findId" type="number" placeholder="ID"/>
     <button id="findProduct">Find Product</button>
     <div id="findMessage"></div>
+
+    <h2>Find Product by Name</h2>
+    <input id="findName" type="text" placeholder="Name"/>
+    <button id="findByName">Find Product</button>
+    <div id="findByNameMessage"></div>
 
     <h2>Low Stock Products</h2>
     <button id="lowStockProducts">Show Low Stock</button>
@@ -43,7 +48,7 @@
 
         const productsDiv = document.getElementById("products");
 
-        //GET
+        //GET ***************************************************************
         const loadButton = document.getElementById("loadProductsButton");
         loadButton.addEventListener("click", async () => {
             const response = await fetch("/products");
@@ -63,7 +68,7 @@
 
         });
 
-        //POST
+        //POST **************************************************************
         const idInput = document.getElementById("productId");
         const nameInput = document.getElementById("productName");
         const quantityInput = document.getElementById("productQuantity");
@@ -134,7 +139,7 @@
             }
         });
 
-        //PUT
+        //PUT ***************************************************************
         const putIdInput = document.getElementById("updateId");
         const putNameInput = document.getElementById("updateName");
         const putQuantityInput = document.getElementById("updateQuantity");
@@ -187,7 +192,7 @@
             }
         });
 
-        //DELETE
+        //DELETE ************************************************************
         const deleteId = document.getElementById("deleteId");
         const deleteProduct = document.getElementById("deleteProduct");
         const deleteMessage = document.getElementById("deleteMessage");
@@ -228,7 +233,7 @@
             }
         });
 
-        //Validation functions
+        //Validation functions *********************************************
         function IsPositiveInteger(number){
             return number > 0 && Number.isInteger(number);
         }
@@ -245,7 +250,7 @@
             return "";
 }
 
-        //Functions
+        //Functions ********************************************************
         async function findProductMessage(response){
             let message = "";
             if (response.ok) {
@@ -258,7 +263,7 @@
             }
             return message;
         }
-        //Find Product
+        //Find Product *****************************************************
         const findIdInput = document.getElementById("findId");
         const findProductBtn = document.getElementById("findProduct");
         const findMessage = document.getElementById("findMessage");
@@ -287,11 +292,47 @@
                 findMessage.innerHTML = `Could not connect to the server`;
             }
         });
+        //Find Product By Name *********************************************
+        const findNameProductInput = document.getElementById("findName");
+        const findNameProductBtn = document.getElementById("findByName");
+        const findByNameMessage = document.getElementById("findByNameMessage");
+        findNameProductBtn.addEventListener("click", async () =>{
+            const cleanedName = findNameProductInput.value.trim();
+            if ( cleanedName === "") { 
+                findByNameMessage.innerHTML = `Name is required`;
+                return;
+            }
+            findByNameMessage.innerHTML = "";
+            try { 
+                const response = await fetch(`/products`)
+                if (response.ok) {
+                    const productsArray = await response.json();
+                    const cleanedNameToLower = cleanedName.toLowerCase();
+                    const matchingProductsArray = productsArray.filter(product => product.name.toLowerCase().includes(cleanedNameToLower));
+                    console.log(matchingProductsArray);
+                    if (matchingProductsArray.length === 0) {
+                        findByNameMessage.innerHTML = `No products found`;
+                        return;
+                    }
+                    const productStringsArray = GetProductDisplayStrings(matchingProductsArray);
+                    const displayMatchingProducts = JoinProductDisplayStrings(productStringsArray);
+                    findByNameMessage.innerHTML = displayMatchingProducts;
+                }
+                else { 
+                    const message = await response.text();
+                    findByNameMessage.innerHTML = message;
+                    
+                }
+            }
+            catch {
+                findByNameMessage.innerHTML = `Could not connect to the server`;
+            }
+        });
 
-        //Show Low Stock Products
+        //Show Low Stock Products ******************************************
         const lowStockBtn = document.getElementById("lowStockProducts");
         const lowStockMessage = document.getElementById("lowStockMessage");
-        //Functions
+        //Functions ********************************************************
         function GetLowStockProducts(products, lowStockLimit=5){
             const filteredArray = products.filter(product => product.quantity <= lowStockLimit);
             return filteredArray;
