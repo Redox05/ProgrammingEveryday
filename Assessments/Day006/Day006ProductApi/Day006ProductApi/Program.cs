@@ -43,6 +43,17 @@ namespace Day006ProductApi
                     return Results.Ok(existingProduct);
                 }
             });
+            app.MapGet("/products/search", (string? name) =>
+            {
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    return Results.BadRequest("Name is required");
+                }
+                string cleanedName = name.Trim();
+                var matchingProducts = products.Where(product => product.Name.Contains(cleanedName,StringComparison.OrdinalIgnoreCase));
+                List<Product> listOfProducts = matchingProducts.ToList();
+                return Results.Ok(listOfProducts);
+            });
 
             app.MapPost("/products", (Product newProduct) =>
             {

@@ -302,19 +302,18 @@
                 findByNameMessage.innerHTML = `Name is required`;
                 return;
             }
+            const encodedCleanedName = encodeURIComponent(cleanedName);
             findByNameMessage.innerHTML = "";
             try { 
-                const response = await fetch(`/products`)
+                const response = await fetch(`/products/search?name=${encodedCleanedName}`)
                 if (response.ok) {
                     const productsArray = await response.json();
-                    const cleanedNameToLower = cleanedName.toLowerCase();
-                    const matchingProductsArray = productsArray.filter(product => product.name.toLowerCase().includes(cleanedNameToLower));
-                    console.log(matchingProductsArray);
-                    if (matchingProductsArray.length === 0) {
+                    if (productsArray.length === 0) {
                         findByNameMessage.innerHTML = `No products found`;
                         return;
                     }
-                    const productStringsArray = GetProductDisplayStrings(matchingProductsArray);
+
+                    const productStringsArray = GetProductDisplayStrings(productsArray);
                     const displayMatchingProducts = JoinProductDisplayStrings(productStringsArray);
                     findByNameMessage.innerHTML = displayMatchingProducts;
                 }
