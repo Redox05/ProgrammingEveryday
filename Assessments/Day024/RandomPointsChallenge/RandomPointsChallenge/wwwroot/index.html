@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Random Points Challenge</title>
+</head>
+<body>
+    <h2>Random Points Generator</h2>
+    <button id="generatePointsButton">Generate Points</button>
+    <div id="pointsResult"></div>
+    <canvas id="pointsCanvas" width="400" height="400" style="border: 1px solid black;"></canvas>
+
+    <script>
+        const generatePointsBtn = document.getElementById("generatePointsButton");
+        const pointsResultGraphDisplay = document.getElementById("pointsResult");
+        const selectCanvas = document.getElementById("pointsCanvas");
+        const canvasContext = selectCanvas.getContext("2d");
+        generatePointsBtn.addEventListener("click", async ()=>{
+            try {
+                const response = await fetch("/points");
+                if (response.ok) {
+                    const randomPoints = await response.json();
+                    pointsResultGraphDisplay.textContent = `Generated ${randomPoints.length} points`;
+                }
+                else { 
+                    const message = await response.text();
+                    pointsResultGraphDisplay.innerHTML = message;
+                }
+            }
+            catch { 
+                pointsResultGraphDisplay.innerHTML = `There was a network failure error`;
+            }
+        });
+    </script>
+
+</body>
+</html>
