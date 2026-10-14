@@ -14,13 +14,27 @@
         const generatePointsBtn = document.getElementById("generatePointsButton");
         const pointsResultGraphDisplay = document.getElementById("pointsResult");
         const selectCanvas = document.getElementById("pointsCanvas");
+
+
+        // const point = {x:25, y:70};
         const canvasContext = selectCanvas.getContext("2d");
+        // canvasContext.beginPath();
+        // canvasContext.arc(point.x*4, point.y*4, 4, 0, 2*Math.PI);
+        // canvasContext.fill();
+
+
         generatePointsBtn.addEventListener("click", async ()=>{
             try {
                 const response = await fetch("/points");
                 if (response.ok) {
                     const randomPoints = await response.json();
                     pointsResultGraphDisplay.textContent = `Generated ${randomPoints.length} points`;
+                    canvasContext.clearRect(0, 0, 400, 400);
+                    randomPoints.forEach(point => {
+                        canvasContext.beginPath();
+                        canvasContext.arc(point.x * 4, point.y * 4,4, 0, 2 * Math.PI);
+                        canvasContext.fill();
+                    });
                 }
                 else { 
                     const message = await response.text();
