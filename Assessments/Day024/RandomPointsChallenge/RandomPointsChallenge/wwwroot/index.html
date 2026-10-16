@@ -51,7 +51,7 @@
             canvasContext.clearRect(0, 0, 400, 400);
             pointsToDraw.forEach(point => {
                 canvasContext.beginPath();
-                canvasContext.arc(point.x * 4, point.y * 4, 4, 0, 2 * Math.PI);
+                canvasContext.arc(point.x * 4, (400-point.y*4), 4, 0, 2 * Math.PI);
                 canvasContext.fill();
             })
         }
