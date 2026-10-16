@@ -62,7 +62,7 @@
                 if (response.ok) {
                     randomPoints = await response.json();
                     pointsResultGraphDisplay.textContent = `Generated ${randomPoints.length} points`;
-                    drawPoints(randomPoints);
+                    drawPoints(filterPointsByQuadrant(randomPoints, selectQuarterDropdown.value));
                 }
                 else { 
                     const message = await response.text();
