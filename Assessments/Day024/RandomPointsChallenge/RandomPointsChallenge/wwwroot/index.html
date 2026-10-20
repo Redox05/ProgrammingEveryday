@@ -25,6 +25,7 @@
         const selectCanvas = document.getElementById("pointsCanvas");
         const canvasContext = selectCanvas.getContext("2d");
         let randomPoints = [];
+        
 
         //Functions******************************************************************************************************
         function filterPointsByQuadrant(pointsArray, quadrantString) {
@@ -54,15 +55,21 @@
                 canvasContext.arc(point.x * 4, (400-point.y*4), 4, 0, 2 * Math.PI);
                 canvasContext.fill();
             })
+}
+        function updatePointsDisplay(totalRandomPoints, filteredPointsByQuadrant, quadrantString){
+            pointsResultGraphDisplay.textContent = `Generated: ${totalRandomPoints.length} points | Displayed: ${filteredPointsByQuadrant.length} points | Quadrant: ${quadrantString}`;
+            
         }
 
+        
         generatePointsBtn.addEventListener("click", async ()=>{
             try {
                 const response = await fetch("/points");
                 if (response.ok) {
                     randomPoints = await response.json();
-                    pointsResultGraphDisplay.textContent = `Generated ${randomPoints.length} points`;
-                    drawPoints(filterPointsByQuadrant(randomPoints, selectQuarterDropdown.value));
+                    const pointsToDraw = filterPointsByQuadrant(randomPoints, selectQuarterDropdown.value);
+                    drawPoints(pointsToDraw);
+                    updatePointsDisplay(randomPoints, pointsToDraw, selectQuarterDropdown.value);
                 }
                 else { 
                     const message = await response.text();
@@ -74,8 +81,9 @@
             }
         });
         selectQuarterDropdown.addEventListener("change", (event) => {
-            let pointsToDraw = filterPointsByQuadrant(randomPoints,event.target.value);
+            const pointsToDraw = filterPointsByQuadrant(randomPoints,event.target.value);
             drawPoints(pointsToDraw);
+            updatePointsDisplay(randomPoints, pointsToDraw, selectQuarterDropdown.value);
         });
     </script>
 
