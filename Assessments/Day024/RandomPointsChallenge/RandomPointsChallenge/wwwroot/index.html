@@ -76,8 +76,9 @@
                     pointsResultGraphDisplay.innerHTML = message;
                 }
             }
-            catch { 
-                pointsResultGraphDisplay.innerHTML = `There was a network failure error`;
+            catch (error){
+                console.error(error);
+                pointsResultGraphDisplay.textContent = `An unexpected error occurred`;
             }
         });
         selectQuarterDropdown.addEventListener("change", (event) => {
